@@ -1,28 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Mode Toggle</title>
-    <link rel="stylesheet" href="dark-mode.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
-</head>
-
-<body class="transition-colors duration-500">
-    <div class="toggle-container flex flex-col items-center justify-center min-h-screen">
-        <div class="sun"></div>
-        <div class="moon"></div>
-        <div class="stars" id="stars"></div>
-        <h1 class="text-5xl font-bold mb-10 text-white drop-shadow-lg relative z-10">Dark Mode Toggle</h1>
-        <div class="toggle-wrapper">
-            <input type="checkbox" id="theme-toggle" class="toggle-input">
-            <label for="theme-toggle" class="toggle-slider"></label>
-        </div>
-    </div>
-    <script>
         const themeToggle = document.getElementById("theme-toggle");
         const body = document.body;
         const starsContainer = document.getElementById("stars");
@@ -55,7 +31,4 @@
             setTheme(savedTheme);
             generateStars();
         });
-    </script>
-</body>
-
-</html>
+    
