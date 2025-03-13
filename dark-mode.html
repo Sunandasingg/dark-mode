@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode Toggle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            /* background: linear-gradient(to bottom, #ffdd44, #ffbb33, #ff8800); */
+            background-image: url(https://media-cdn.tripadvisor.com/media/photo-s/1a/d0/58/92/village-life-pakistan.jpg);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            transition: background 0.5s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dark-mode .toggle-container {
+            background: linear-gradient(to bottom, #0a0a0a, #1a1a2e);
+        }
+
+        .sun,
+        .moon {
+            position: absolute;
+            top: 50%;
+            left: 27%;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            transition: all 1s ease-in-out;
+        }
+
+        .sun {
+            background: radial-gradient(circle, #ffd700, #ff8c00);
+
+        }
+
+        .dark-mode .sun {
+            top: 120%;
+            opacity: 0;
+        }
+
+        .moon {
+            /* background: radial-gradient(circle, #f4f4f4, #d1d5db); */
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%) scale(1);
+            box-shadow: -20px 0 0 0 #d1d5db;
+            opacity: 0;
+        }
+
+        .dark-mode .moon {
+            opacity: 1;
+        }
+
+        .stars {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .dark-mode .stars {
+            display: block;
+        }
+
+        .stars div {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: twinkle 1.5s infinite alternate ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .toggle-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .toggle-input {
+            display: none;
+        }
+
+        .toggle-slider {
+            width: 60px;
+            height: 30px;
+            background: #ccc;
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-slider::before {
+            content: '\f185';
+            /* Sun icon */
+            font-family: "Phosphor";
+            font-size: 18px;
+            position: absolute;
+            top: 50%;
+            left: 5px;
+            transform: translateY(-50%);
+            background: #fff;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .dark-mode .toggle-slider {
+            background: #444;
+        }
+
+        .dark-mode .toggle-slider::before {
+            content: '\f186';
+            /* Moon icon */
+            left: calc(100% - 30px);
+            background: #f4f4f4;
+        }
+    </style>
+</head>
+
+<body class="transition-colors duration-500">
+    <div class="toggle-container flex flex-col items-center justify-center min-h-screen">
+        <div class="sun"></div>
+        <div class="moon"></div>
+        <div class="stars" id="stars"></div>
+        <h1 class="text-5xl font-bold mb-10 text-white drop-shadow-lg relative z-10">Dark Mode Toggle</h1>
+        <div class="toggle-wrapper">
+            <input type="checkbox" id="theme-toggle" class="toggle-input">
+            <label for="theme-toggle" class="toggle-slider"></label>
+        </div>
+    </div>
+    <script>
+        const themeToggle = document.getElementById("theme-toggle");
+        const body = document.body;
+        const starsContainer = document.getElementById("stars");
+        function generateStars() {
+            for (let i = 0; i < 100; i++) {
+                let star = document.createElement("div");
+                star.style.left = Math.random() * 100 + "%";
+                star.style.top = Math.random() * 100 + "%";
+                star.style.animationDelay = Math.random() * 1 + "s";
+                starsContainer.appendChild(star);
+            }
+        }
+        function setTheme(theme) {
+            if (theme === "dark") {
+                body.classList.add("dark-mode");
+                localStorage.setItem("theme", "dark");
+                themeToggle.checked = true;
+            } else {
+                body.classList.remove("dark-mode");
+                localStorage.setItem("theme", "light");
+                themeToggle.checked = false;
+            }
+        }
+        themeToggle.addEventListener("change", () => {
+            const currentTheme = localStorage.getItem("theme");
+            setTheme(currentTheme === "dark" ? "light" : "dark");
+        });
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedTheme = localStorage.getItem("theme") || "light";
+            setTheme(savedTheme);
+            generateStars();
+        });
+    </script>
+</body>
+
+</html>
